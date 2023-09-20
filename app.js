@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const productsRouter = require('./routes/products.router');
-const cartsRouter = require('./routes/carts.router');
+const productsRouter = require('./src/routes/products.router');
+const cartsRouter = require('./src/routes/carts.router');
 const PORT = 8080
 
 //MiddLewars

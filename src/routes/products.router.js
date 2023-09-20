@@ -2,86 +2,81 @@ const express = require('express');
 const router = express.Router();
 
 const products = [
-    {
-        "name": "Berenjena", "price": 2500, "quantity": 10, "image": "image/image",
-        "characteristic":"es una hortaliza de color morado oscuro que se utiliza en muchas preparaciones culinarias.",
-        "category":"verdura"
-    },
-    {
-        "name": "Arandano","price": 5000, "quantity": 8, "image": "image/image",
-        "characteristic":"es una fruta pequeña y dulce que se utiliza en postres y otros platos dulces.",
-        "category":"fruta"
-    },
-    {
-        "name": "Frutilla", "price": 3000, "quantity": 20, "image": "image/image",
-        "characteristic":"es una fruta dulce y aromática que se utiliza en postres y otros platos dulces.",
-        "category":"fruta"
-    },
-    {
-        "name": "Cereza", "price": 5000,  "quantity": 20, "image": "image/image",
-        "characteristic":"es una fruta dulce y jugosa que se consume fresca o en conserva",
-        "category":"fruta"
-    },
-    {
-        "name": "Durazno", "price": 2500, "quantity": 15, "image": "image/image",        
-        "characteristic":"es una fruta jugosa y dulce que se consume fresca o en conserva.",
-        "category":"fruta"
-    },
-    {
-        "name": "Sandia",  "price": 3000, "quantity": 20, "image": "image/image",
-        "characteristic":"es una fruta grande y refrescante que se consume principalmente en verano.",
-        "category":"fruta"
-    },
-    {
-        "name": "Tomate", "price": 1500, "quantity": 30, "image": "image/image",
-        "characteristic":"es una hortaliza muy versátil que se utiliza en muchas preparaciones culinarias.",
-        "category":"verdura"
-    },
-    {
-         "name": "Mango", "price": 3000, "quantity": 15, "image": "image/image",
-        "characteristic": "es una fruta tropical dulce y jugosa que se consume fresca o en conserva.",
-        "category":"fruta"
-    },
-    {
-          "name": "Pera",  "price": 2000, "quantity": 25, "image": "image/image",
-        "characteristic":"es una fruta  dulce y jugosa que se consume tantp cruda como al horno.",
-        "category":"fruta"
-
-    },
-    {
-         "id":1, "name": "Kiwi",  "price": 2000, "quantity": 12, "image": "image/image",
-        "characteristic":"es una fruta  dulce y jugosa.",
-        "category":"fruta"
-    }
+    
+        {
+            id: 1,
+            name: "Berenjena",
+            price: 2500,
+            stock: 10,
+            code: "image/image1",
+            description:"es una hortaliza de color morado oscuro que se utiliza en muchas preparaciones culinarias.",
+            category:"verdura"
+        },
+        {
+            id: 2,
+            name: "Arandano",
+            price: 5000,
+            stock: 8,
+            code: "image/image2",
+            description:"es una fruta pequeña y dulce que se utiliza en postres y otros platos dulces.",
+            category:"fruta"
+        },
+        {
+            id: 3,
+            name: "Frutilla",
+            price: 3000,
+            stock: 20,
+            code: "image/image3",
+            description:"es una fruta dulce y aromática que se utiliza en postres y otros platos dulces.",
+            category:"fruta"
+        },
+        {
+            id: 4,
+            name: "Cereza",
+            price: 5000,
+            stock: 20,
+            code: "image/image4",
+            description:"es una fruta dulce y jugosa que se consume fresca o en conserva",
+            category:"fruta"
+        },
+        {
+            id: 5,
+            name: "Durazno",
+            price: 2500,
+            stock: 15,
+            code: "image/image5",        
+            description:"es una fruta jugosa y dulce que se consume fresca o en conserva.",
+            category:"fruta"
+        }
+    
 ]
 
-//products
+//all products
 router.get('/api/products', (req, res) => {
     res.json({ products });
 });
 
 //id
 router.get('/api/products/:pid', (req, res) => {
-    //const id = {id: products.length + 1, id:  product.id || "id"} 
-    const pid = parseInt(req.params.pid); 
+    const pid = parseInt(req.params.pid);
+    console.log(pid)
+
+    
     const product = products.find((product) => product.id === pid);
 
     if (!product) {
-        return res.json(product);
-    }else {
-
-        return res.status(400).json({ message: 'We cant find the product' });
-    
+        return res.status(404).json({ error: 'Producto no encontrado.' });
     }
+
+    return res.json(product);
 });
 
-
-// Ruta para agregar un nuevo producto
+//add
 router.post('/api/products', (req, res) => {
 
     const newProduct = req.body;
 
-    // Validamos que se proporcionen todos los campos
+   
     if (!newProduct.id ||
         !newProduct.name ||
         !newProduct.price ||
@@ -100,12 +95,11 @@ router.post('/api/products', (req, res) => {
 
 });
 
-// Ruta para actualizar un producto por su ID (PUT /:pid)
+//add info
 router.put('/api/products/:pid', (req, res) => {
     const pid = parseInt(req.params.pid);
     const updateFields = req.body;
 
-    // Validamos que se proporcionen campos para actualizar
     if (Object.keys(updateFields).length === 0) {
         return res.status(400).json({ message: 'You have to add one field at least' });
     }
@@ -124,7 +118,7 @@ router.put('/api/products/:pid', (req, res) => {
     return res.json(products[productIndex]);
 });
 
-// Ruta para eliminar un producto por su ID (DELETE /:pid)
+//delete
 router.delete('/api/products/:pid', (req, res) => {
     const pid = parseInt(req.params.pid);
 
